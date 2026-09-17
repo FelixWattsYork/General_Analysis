@@ -1,2 +1,1 @@
-def main() -> None:
-    print("Hello from general-analysis!")
+"""Shared analysis functions belong here only when they meet AGENTS.md criteria."""

@@ -1,16 +1,22 @@
 [project]
 name = "general-analysis"
 version = "0.1.0"
-description = "Add your description here"
+description = "Notebook-first gyrokinetic analysis with Pyrokinetics"
 readme = "README.md"
 authors = [
     { name = "FelixWattsYork", email = "hmq514@york.ac.uk" }
 ]
 requires-python = ">=3.14"
-dependencies = []
-
-[project.scripts]
-general-analysis = "general_analysis:main"
+dependencies = [
+    "ipykernel>=7.2.0",
+    "pyrokinetics",
+    "matplotlib>=3.10",
+    "numpy>=2.2",
+    "xarray>=2025.1",
+    "netCDF4>=1.7",
+    "jupyterlab>=4.4",
+    "python-dotenv>=1.0",
+]
 
 [build-system]
 requires = ["uv_build>=0.12.15,<0.13.0"]

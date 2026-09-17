@@ -8,3 +8,10 @@ wheels/
 
 # Virtual environments
 .venv
+local.env
+.env
+
+# Generated figures, notebook checkpoints, and local data
+Plots/**
+.ipynb_checkpoints/
+data/
