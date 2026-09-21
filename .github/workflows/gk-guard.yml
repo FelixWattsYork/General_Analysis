@@ -1,0 +1,33 @@
+name: gk-input-guard
+on: [pull_request, push]
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      # Same script as the local pre-commit hook, run over the files this ref ADDS.
+      #
+      # The base must never be the empty tree. A repo that already contains
+      # pre-existing violations (General_Analysis has 8 legacy notebooks with
+      # embedded outputs, pending the strip-vs-accept decision) would fail CI on
+      # the first push of every new branch, which trains people to ignore the
+      # check instead of fixing it. So: PRs diff against the PR base, and pushes
+      # diff against the default branch -- both real commits, both scoping the
+      # check to what this ref actually introduces.
+      - name: Check changed files
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -eu
+          if [ "${{ github.event_name }}" = pull_request ]; then
+            base=${{ github.event.pull_request.base.sha }}
+          else
+            base=$(git merge-base "origin/$DEFAULT_BRANCH" HEAD 2>/dev/null || true)
+            # Pushing the default branch itself: compare with its own parent.
+            [ -z "$base" ] || [ "$base" = "$(git rev-parse HEAD)" ] && base=$(git rev-parse HEAD~1 2>/dev/null || true)
+          fi
+          [ -n "$base" ] || { echo "no base commit to diff against; nothing to check"; exit 0; }
+          git diff --name-only --diff-filter=AM "$base" HEAD > changed.txt
+          echo "checking $(wc -l < changed.txt) changed file(s) against $base"
+          xargs -r -d '\n' sh tools/block-gk-inputs.sh < changed.txt

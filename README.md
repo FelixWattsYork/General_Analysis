@@ -84,3 +84,14 @@ framework, notebook pairing, or custom batch runner.
 use a short-lived branch per investigation, inspect the notebook and any scientific
 changes, then merge useful work into your main working branch. Git versions the
 notebooks and shared code; it does not archive the simulation data.
+## Data-handling guard
+
+This repo is public. `tools/block-gk-inputs.sh` blocks gyrokinetic input decks
+(`parameters*`, `input.*`, `*.in`, ...), input-bearing `.nc`/HDF5 files, and **any
+notebook with committed cell outputs**. It is a vendored copy; the source of truth is
+`tools/git-guards/block-gk-inputs.sh` in Fusion_PhD — do not edit it here.
+
+- Local hook: `sh tools/install-guard.sh`
+- CI: `.github/workflows/gk-guard.yml` runs the same script on every PR/push.
+- Override a genuine false positive locally: `ALLOW_GK_INPUT=1 git commit ...` (CI has no override; fix the file or ask the maintainers).
+- Notebooks: clear outputs before committing (`jupyter nbconvert --clear-output --inplace nb.ipynb`).
