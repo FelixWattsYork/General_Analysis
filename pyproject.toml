@@ -11,8 +11,8 @@ dependencies = [
     "ipykernel>=7.2.0",
     "pyrokinetics",
     "matplotlib>=3.10",
-    "numpy>=2.2",
-    "xarray>=2025.1",
+    "numpy",  # version set by pyrokinetics (pins <=2.1.0)
+    "xarray",  # version set by pyrokinetics (pins <=2024.11)
     "netCDF4>=1.7",
     "jupyterlab>=4.4",
     "python-dotenv>=1.0",
@@ -21,3 +21,6 @@ dependencies = [
 [build-system]
 requires = ["uv_build>=0.12.15,<0.13.0"]
 build-backend = "uv_build"
+
+[tool.uv.sources]
+pyrokinetics = { git = "https://github.com/pyro-kinetics/pyrokinetics", branch = "feature/claude/open-prs-combined" }
