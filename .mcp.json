@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "jupyter-agent-bridge": {
+      "command": "node",
+      "args": [
+        "/pitagora/home/userexternal/fwatts00/.vscode-server/extensions/alendit.jupyter-agent-bridge-0.12.1/frontend-mcp/dist/frontend-mcp/src/main.js",
+        "/pitagora_work/FUPB2_QLTURB/fwatts/General_Analysis_kbm_extent/.jupyter-agent-bridge/bridge/port"
+      ],
+      "env": {}
+    }
+  }
+}
