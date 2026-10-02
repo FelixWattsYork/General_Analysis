@@ -1,6 +1,6 @@
 """Consensus KBM / MTM / mixed classification of a linear gyrokinetic mode (Fusion_PhD-7k70).
 
-Three indicators, each a few lines from pyrokinetics quantities:
+Three indicators, each a few lines from pyrokinetics quantities (D_e/chi_e is still reported, no longer cut on):
   T      tearing parameter |int A_par dl| / int |A_par| dl (Hatch et al. 2012, PRL 108, 235002)
   omega  signed mode frequency, ion direction > 0, electron direction < 0
   chi    chi_e/chi_i from chi_s = (Q_s - 1.5 T_s Gamma_s)/(n_s T_s a/L_Ts)
@@ -20,13 +20,12 @@ from pyrokinetics.diagnostics.field_line import FieldLine
 # Fusion_PhD results/mode_classification (NSTX MTM cases are omega < 0, see README).
 ION_DIRECTION = +1
 
-# ---- cutoffs: ONE place. Values are set by the calibration in results/mode_classification/ ----
-# Calibrated on GS2 NSTX_MTM n1000 + SPR-045 kbm_8d + M1 kbm_8d (notebooks/mode_classification_calibration.ipynb).
-T_BAL = 0.05         # T below this is ballooning parity (KBM): 99.5% of SPR-045/M1 cases lie below; NSTX T has a sparse 0.01-0.3 tail
-T_TEAR = 0.7         # T above this is tearing parity (MTM): the NSTX_MTM population peaks at 0.7-1; 0.5-0.7 is a shoulder and is left 'mixed'
-CHI_KBM = (0.5, 2.0) # KBM band of chi_e/chi_i: Kotschenreuther T1 gives chi_i/chi_e ~ 1; our ion-direction T<0.05 cases have IQR 0.5-1.0
-CHI_MTM = 10.0       # MTM: chi_e/chi_i above this: Kotschenreuther T1 gives chi_i/chi_e ~ 1/10; our T>0.7 NSTX cases have 5th percentile ~40
-DE_CHI_KBM = 0.4     # KBM: D_e/chi_e above this: Kotschenreuther T1 gives 2/3 for KBM, small/negative for ITG/TEM; ours peaks 0.55-1.5
+# ---- cutoffs: ONE place. User's final criteria, 2026-10-01 (Fusion_PhD docs/mode_filtering.md, Fusion_PhD-lqwx) ----
+# Supersedes the Fusion_PhD-7k70 calibration (T_TEAR 0.7, CHI_KBM (0.5, 2), CHI_MTM 10, DE_CHI_KBM 0.4); the
+# MTM chi_e/chi_i cut and the KBM D_e/chi_e cut are removed at the user's request.
+T_BAL = 0.05         # KBM: T below this (ballooning parity)
+T_TEAR = 0.15        # MTM: T above this (tearing parity)
+CHI_KBM = (0.25, 4.0)  # KBM: chi_e/chi_i band
 
 
 def indicators(pyro):
@@ -60,11 +59,14 @@ def indicators(pyro):
 
 
 def classify(ind):
-    """'KBM' / 'MTM' / 'mixed': a label only if every indicator agrees."""
-    c = ind["chi_ratio"]
-    if (ind["omega"] > 0 and ind["T"] < T_BAL and CHI_KBM[0] < c < CHI_KBM[1]
-            and (DE_CHI_KBM is None or ind["de_chi"] > DE_CHI_KBM)):
+    """'KBM' / 'MTM' / 'mixed': a label only if every criterion agrees."""
+    if ind["omega"] > 0 and ind["T"] < T_BAL and CHI_KBM[0] < ind["chi_ratio"] < CHI_KBM[1]:
         return "KBM"
-    if ind["omega"] < 0 and ind["T"] > T_TEAR and c > CHI_MTM:
+    if ind["omega"] < 0 and ind["T"] > T_TEAR:
         return "MTM"
     return "mixed"
+
+
+def classify_T_omega(ind):
+    """As classify() from T and omega only, for GFTM/TGLF (no per-mode flux weights, Fusion_PhD-9lgj)."""
+    return classify({**ind, "chi_ratio": np.sqrt(CHI_KBM[0] * CHI_KBM[1])})
