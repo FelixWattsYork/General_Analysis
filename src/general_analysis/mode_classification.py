@@ -11,6 +11,9 @@ tough consensus filter: anything not agreeing on every indicator is 'mixed'.
 """
 import numpy as np
 import xarray as xr
+from pathlib import Path
+from pyrokinetics import Pyro, PyroHypercube
+from pyrokinetics.pyroscan import PyroScanGKOutput
 from pyrokinetics.diagnostics.field_line import FieldLine
 
 # Pyrokinetics' convention: mode_frequency > 0 is the ion direction, < 0 the electron direction.
@@ -49,6 +52,20 @@ def attach_legacy_funcs(scan):
         if k in scan.parameter_dict:
             scan.add_parameter_func(k, _tie_species, {})
     return scan
+
+
+def load_gs2_cube(base, cube=None, file_name="gs2.in"):
+    """(scan, ds) of a GS2 Latin-hypercube database `base` (the directory holding pyro_cube/ and the run directories).
+
+    cube: 'pyro_cube' (final time) or 'pyro_cube_avg' (tail average); default the final-time cube if there is one.
+    R4's cube_eigenfunctions.nc is used where present (ragged theta, see indicators()). Nothing in the run directories is read.
+    """
+    base = Path(base)
+    cd = base / (cube or next(c for c in ("pyro_cube", "pyro_cube_avg") if (base / c / "cube.nc").exists()))
+    nc = cd / "cube_eigenfunctions.nc" if (cd / "cube_eigenfunctions.nc").exists() else cd / "cube.nc"
+    scan = PyroHypercube(pyro=Pyro(gk_file=cd / "pyroscan_base.input", gk_code="GS2"), pyroscan_json=cd / "pyroscan.json",
+                         base_directory=base, file_name=file_name)
+    return attach_legacy_funcs(scan), PyroScanGKOutput.from_netcdf(nc).data
 
 
 def indicators(scan, ds):
