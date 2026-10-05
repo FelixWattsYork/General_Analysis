@@ -1,0 +1,116 @@
+"""Consensus KBM / MTM / mixed classification of a linear gyrokinetic mode (Fusion_PhD-7k70).
+
+Three indicators, each a few lines from pyrokinetics quantities:
+  T      tearing parameter |int A_par dl| / int |A_par| dl (Hatch et al. 2012, PRL 108, 235002)
+  omega  signed mode frequency, ion direction > 0, electron direction < 0
+  chi    chi_e/chi_i from chi_s = (Q_s - 1.5 T_s Gamma_s)/(n_s T_s a/L_Ts)
+         (Kotschenreuther et al. 2019, NF 59 096001; Kennedy et al. 2023)
+
+Purpose: find regions of parameter space that are CLEARLY one mode type, so classify() is a
+tough consensus filter: anything not agreeing on every indicator is 'mixed'.
+"""
+import numpy as np
+import xarray as xr
+from pathlib import Path
+from pyrokinetics import Pyro, PyroHypercube
+from pyrokinetics.pyroscan import PyroScanGKOutput
+from pyrokinetics.diagnostics.field_line import FieldLine
+
+# Pyrokinetics' convention: mode_frequency > 0 is the ion direction, < 0 the electron direction.
+# Source: pyrokinetics gk_code/cgyro.py ("-ve is electron direction"), gene.py ("Match pyro
+# convention for ion/electron direction"); confirmed on our GS2 data in
+# Fusion_PhD results/mode_classification (NSTX MTM cases are omega < 0, see README).
+ION_DIRECTION = +1
+
+# ---- cutoffs: ONE place. User's final criteria, 2026-10-01 (Fusion_PhD docs/mode_filtering.md, Fusion_PhD-lqwx) ----
+# Supersedes the Fusion_PhD-7k70 calibration (T_TEAR 0.7, CHI_KBM (0.5, 2), CHI_MTM 10, DE_CHI_KBM 0.4); the
+# MTM chi_e/chi_i cut and the KBM D_e/chi_e cut are removed at the user's request.
+T_BAL = 0.05         # KBM: T below this (ballooning parity)
+T_TEAR = 0.15        # MTM: T above this (tearing parity)
+CHI_KBM = (0.25, 4.0)  # KBM: chi_e/chi_i band
+
+
+def _tie_species(pyro):
+    """The KBM hypercubes' deck rule: every ion shares the first ion's a/L_T, and every species' a/L_n is the electron's."""
+    ls = pyro.local_species
+    ions = [s for s in ls.names if s != "electron"]
+    for s in ions[1:]:
+        ls[s].inverse_lt = ls[ions[0]].inverse_lt
+    for s in ions:
+        ls[s].inverse_ln = ls["electron"].inverse_ln
+
+
+def attach_legacy_funcs(scan):
+    """Re-attach the derived settings of GS2 scans whose pyroscan.json predates parameter_func serialisation.
+
+    Measured against each run's own deck (Fusion_PhD-k8w8): beta_prime follows beta, and the KBM cubes tie ion and electron gradients.
+    Scans saved with named parameter_func (pyro sample_pyro) carry these in their json and do not need this.
+    """
+    if "beta" in scan.parameter_dict:
+        scan.add_parameter_func("beta", "enforce_consistent_beta_prime", {})
+    for k in ("deuterium_temp_gradient", "electron_dens_gradient"):
+        if k in scan.parameter_dict:
+            scan.add_parameter_func(k, _tie_species, {})
+    return scan
+
+
+def load_gs2_cube(base, cube=None, file_name="gs2.in"):
+    """(scan, ds) of a GS2 Latin-hypercube database `base` (the directory holding pyro_cube/ and the run directories).
+
+    cube: 'pyro_cube' (final time) or 'pyro_cube_avg' (tail average); default the final-time cube if there is one.
+    R4's cube_eigenfunctions.nc is used where present (ragged theta, see indicators()). Nothing in the run directories is read.
+    """
+    base = Path(base)
+    cd = base / (cube or next(c for c in ("pyro_cube", "pyro_cube_avg") if (base / c / "cube.nc").exists()))
+    nc = cd / "cube_eigenfunctions.nc" if (cd / "cube_eigenfunctions.nc").exists() else cd / "cube.nc"
+    scan = PyroHypercube(pyro=Pyro(gk_file=cd / "pyroscan_base.input", gk_code="GS2"), pyroscan_json=cd / "pyroscan.json",
+                         base_directory=base, file_name=file_name)
+    return attach_legacy_funcs(scan), PyroScanGKOutput.from_netcdf(nc).data
+
+
+def indicators(scan, ds):
+    """T, omega, chi_e/chi_i per sample, from a PyroScan/PyroHypercube `scan` and its final-time GK output dataset `ds`.
+
+    ds: PyroScanGKOutput.from_netcdf(...).data with sample, complex apar, mode_frequency, heat, particle (the scan's pyro_cube).
+    Sample i's Pyro is scan.sample_pyro(i, gk_output=...): the base with that sample's scanned values and derived settings
+    applied, its apar attached; FieldLine gives T with that sample's geometry and the same Pyro gives T_s, n_s, a/L_Ts.
+    """
+    names = [str(n) for n in ds.sample_name.values]
+    assert names == list(scan.sample_names), "scan and dataset samples differ"
+    apar = ds["apar"].squeeze().pint.dequantify()
+    sp, T = {}, []
+    for i, (n, a) in enumerate(zip(names, apar)):
+        # ragged-theta cubes (R4) are NaN-padded and their theta axis is the unsorted union of the samples' grids
+        a = a.dropna("theta").sortby("theta")
+        pyro = scan.sample_pyro(i, gk_output=xr.Dataset({"apar": a}))
+        T.append(float(FieldLine(pyro).compute_linear_tearing_parameter().squeeze()) if a.theta.size else np.nan)
+        sp[n] = {s: (float(pyro.local_species[s].temp.m), float(pyro.local_species[s].dens.m), float(pyro.local_species[s].inverse_lt.m))
+                 for s in pyro.local_species.names}  # keep numbers, not 1000 Pyros
+    T = np.array(T)
+    heat = ds["heat"].sum("field").pint.dequantify()
+    part = ds["particle"].sum("field").pint.dequantify()
+    np.seterr(divide="ignore", invalid="ignore")  # zero-flux (non-converged) samples give nan, not an exception
+
+    def chi(group):  # summed over the species in `group`; temperatures and densities are in tref, nref
+        num = den = 0.0
+        for s in group:
+            t, n, alt = np.array([sp[k][s] for k in names]).T
+            num = num + heat.sel(species=s).values - 1.5 * t * part.sel(species=s).values
+            den = den + n * t * alt
+        return num / den
+
+    chi_e, chi_i = chi(["electron"]), chi([str(s) for s in ds.species.values if s != "electron"])
+    return xr.Dataset({"T": ("sample", T), "omega": ("sample", ION_DIRECTION * ds["mode_frequency"].pint.dequantify().values.ravel()),
+                       "chi_ratio": ("sample", chi_e / chi_i)}, coords={"sample": ds.sample.values, "sample_name": ("sample", names)})
+
+
+def classify(ind):
+    """'KBM' / 'MTM' / 'mixed' (array over samples, or a scalar for one dict): a label only if every criterion agrees."""
+    kbm = (ind["omega"] > 0) & (ind["T"] < T_BAL) & (CHI_KBM[0] < ind["chi_ratio"]) & (ind["chi_ratio"] < CHI_KBM[1])
+    mtm = (ind["omega"] < 0) & (ind["T"] > T_TEAR)
+    return np.select([kbm, mtm], ["KBM", "MTM"], "mixed")
+
+
+def classify_T_omega(ind):
+    """As classify() from T and omega only, for GFTM/TGLF (no per-mode flux weights, Fusion_PhD-9lgj)."""
+    return classify({**ind, "chi_ratio": np.sqrt(CHI_KBM[0] * CHI_KBM[1])})
