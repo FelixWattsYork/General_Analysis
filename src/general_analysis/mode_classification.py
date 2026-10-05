@@ -12,7 +12,7 @@ tough consensus filter: anything not agreeing on every indicator is 'mixed'.
 import numpy as np
 import xarray as xr
 from pathlib import Path
-from pyrokinetics import Pyro, PyroHypercube
+from pyrokinetics import Pyro, PyroHypercube, PyroScan
 from pyrokinetics.pyroscan import PyroScanGKOutput
 from pyrokinetics.diagnostics.field_line import FieldLine
 
@@ -68,6 +68,23 @@ def load_gs2_cube(base, cube=None, file_name="gs2.in"):
     return attach_legacy_funcs(scan), PyroScanGKOutput.from_netcdf(nc).data
 
 
+def load_gridded_cube(cube_dir, code="GS2", file_name="gs2.in"):
+    """(scan, ds) of a gridded PyroScan cube directory (pyroscan.json + cube.nc), e.g. GS2 KX_SCAN's pyro_cube_avg; ds has one 'sample' dim."""
+    cd = Path(cube_dir)
+    scan = PyroScan(pyro=Pyro(gk_file=cd / "pyroscan_base.input", gk_code=code), pyroscan_json=cd / "pyroscan.json",
+                    base_directory=cd.parent, file_name=file_name)
+    return attach_legacy_funcs(scan), as_samples(scan, PyroScanGKOutput.from_netcdf(cd / "cube.nc").data)
+
+
+def as_samples(scan, ds):
+    """ds with a single 'sample' dimension in the scan's run order: a gridded PyroScan's parameter dims are stacked, first parameter outermost."""
+    if "sample" in ds.dims:
+        return ds
+    ds = ds.stack(sample=list(scan.parameter_dict)).reset_index("sample")
+    ds = ds.assign_coords(sample=np.arange(ds.sizes["sample"]), sample_name=("sample", list(scan.pyro_dict)))
+    return ds.transpose("sample", ...)
+
+
 def load_gftm_cube(leaf):
     """(scan, ds) of a GFTM leaf: a GyroRun leaf (pyroscan.json + pyroscan.nc at its root) or a legacy one (pyro_cube/cube.nc + pyroscan.json)."""
     leaf = Path(leaf)
@@ -83,6 +100,7 @@ def tearing_parity(scan, ds, samples=None):
     apar is ds['apar'], else the 'apar' field of ds['eigenfunctions'] (legacy cubes). Sample i's Pyro is scan.sample_pyro(i, gk_output=...)
     (its own geometry, no run directory); FieldLine does the rest. samples: positions to compute (default all); the others are NaN.
     """
+    ds = as_samples(scan, ds)
     apar = (ds["apar"] if "apar" in ds else ds["eigenfunctions"].sel(field="apar")).pint.dequantify()
     n = apar.sizes["sample"]
     todo = range(n) if samples is None else sorted(int(i) for i in samples)
@@ -106,8 +124,9 @@ def indicators(scan, ds):
     Sample i's Pyro is scan.sample_pyro(i, gk_output=...): the base with that sample's scanned values and derived settings
     applied, its apar attached; FieldLine gives T with that sample's geometry and the same Pyro gives T_s, n_s, a/L_Ts.
     """
+    ds = as_samples(scan, ds)
     names = [str(n) for n in ds.sample_name.values]
-    assert names == list(scan.sample_names), "scan and dataset samples differ"
+    assert names == list(scan.pyro_dict), "scan and dataset samples differ"
     apar = ds["apar"].squeeze().pint.dequantify()
     sp, T, E = {}, [], []
     for i, (n, a) in enumerate(zip(names, apar)):
