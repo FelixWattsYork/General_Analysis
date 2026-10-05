@@ -11,6 +11,7 @@ tough consensus filter: anything not agreeing on every indicator is 'mixed'.
 """
 import numpy as np
 import xarray as xr
+from pyrokinetics.diagnostics.field_line import FieldLine
 
 # Pyrokinetics' convention: mode_frequency > 0 is the ion direction, < 0 the electron direction.
 # Source: pyrokinetics gk_code/cgyro.py ("-ve is electron direction"), gene.py ("Match pyro
@@ -27,16 +28,26 @@ CHI_KBM = (0.25, 4.0)  # KBM: chi_e/chi_i band
 
 
 def indicators(scan, ds):
-    """T, omega, chi_e/chi_i per sample, from a PyroScan/PyroHypercube `scan` and its GK output dataset `ds`.
+    """T, omega, chi_e/chi_i per sample, from a PyroScan/PyroHypercube `scan` and its final-time GK output dataset `ds`.
 
-    ds: PyroScanGKOutput.from_netcdf(pyroscan.nc).data saved with load_tearing_parameter=True and load_fluxes=True, so it holds
-    tearing_parameter (per run, final time, the run's own geometry), mode_frequency, heat and particle.
-    Species (T, n, a/L_T) come from each sample's pyro, built from the scan's base plus its scanned values.
+    ds: PyroScanGKOutput.from_netcdf(...).data with sample, complex apar, mode_frequency, heat, particle (the scan's pyro_cube).
+    Sample i's Pyro is the scan's base with that sample's scanned values applied (scan.update_self_parameters); its apar is
+    attached as gk_output so FieldLine computes T with that sample's own geometry. Species (T, n, a/L_T) come from the same Pyro.
     """
     names = [str(n) for n in ds.sample_name.values]
     assert names == list(scan.sample_names), "scan and dataset samples differ"
     scan.update_self_parameters()
-    T = ds["tearing_parameter"].pint.dequantify().values.ravel()
+    apar = ds["apar"].squeeze().pint.dequantify()
+    T = []
+    for n, a in zip(names, apar):
+        a = a.dropna("theta")  # ragged-theta cubes (R4) are NaN-padded outside the sample's own grid
+        if a.theta.size == 0:  # failed run: no eigenfunction
+            T.append(np.nan)
+            continue
+        pyro = scan.pyro_dict[n]
+        pyro.gk_output = xr.Dataset({"apar": a})
+        T.append(float(FieldLine(pyro).compute_linear_tearing_parameter().squeeze()))
+    T = np.array(T)
     heat = ds["heat"].sum("field").pint.dequantify()
     part = ds["particle"].sum("field").pint.dequantify()
     np.seterr(divide="ignore", invalid="ignore")  # zero-flux (non-converged) samples give nan, not an exception
