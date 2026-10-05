@@ -27,26 +27,48 @@ T_TEAR = 0.15        # MTM: T above this (tearing parity)
 CHI_KBM = (0.25, 4.0)  # KBM: chi_e/chi_i band
 
 
+def _tie_species(pyro):
+    """The KBM hypercubes' deck rule: every ion shares the first ion's a/L_T, and every species' a/L_n is the electron's."""
+    ls = pyro.local_species
+    ions = [s for s in ls.names if s != "electron"]
+    for s in ions[1:]:
+        ls[s].inverse_lt = ls[ions[0]].inverse_lt
+    for s in ions:
+        ls[s].inverse_ln = ls["electron"].inverse_ln
+
+
+def attach_legacy_funcs(scan):
+    """Re-attach the derived settings of GS2 scans whose pyroscan.json predates parameter_func serialisation.
+
+    Measured against each run's own deck (Fusion_PhD-k8w8): beta_prime follows beta, and the KBM cubes tie ion and electron gradients.
+    Scans saved with named parameter_func (pyro sample_pyro) carry these in their json and do not need this.
+    """
+    if "beta" in scan.parameter_dict:
+        scan.add_parameter_func("beta", "enforce_consistent_beta_prime", {})
+    for k in ("deuterium_temp_gradient", "electron_dens_gradient"):
+        if k in scan.parameter_dict:
+            scan.add_parameter_func(k, _tie_species, {})
+    return scan
+
+
 def indicators(scan, ds):
     """T, omega, chi_e/chi_i per sample, from a PyroScan/PyroHypercube `scan` and its final-time GK output dataset `ds`.
 
     ds: PyroScanGKOutput.from_netcdf(...).data with sample, complex apar, mode_frequency, heat, particle (the scan's pyro_cube).
-    Sample i's Pyro is the scan's base with that sample's scanned values applied (scan.update_self_parameters); its apar is
-    attached as gk_output so FieldLine computes T with that sample's own geometry. Species (T, n, a/L_T) come from the same Pyro.
+    Sample i's Pyro is scan.sample_pyro(i, gk_output=...): the base with that sample's scanned values and derived settings
+    applied, its apar attached; FieldLine gives T with that sample's geometry and the same Pyro gives T_s, n_s, a/L_Ts.
     """
     names = [str(n) for n in ds.sample_name.values]
     assert names == list(scan.sample_names), "scan and dataset samples differ"
-    scan.update_self_parameters()
     apar = ds["apar"].squeeze().pint.dequantify()
-    T = []
-    for n, a in zip(names, apar):
-        a = a.dropna("theta")  # ragged-theta cubes (R4) are NaN-padded outside the sample's own grid
-        if a.theta.size == 0:  # failed run: no eigenfunction
-            T.append(np.nan)
-            continue
-        pyro = scan.pyro_dict[n]
-        pyro.gk_output = xr.Dataset({"apar": a})
-        T.append(float(FieldLine(pyro).compute_linear_tearing_parameter().squeeze()))
+    sp, T = {}, []
+    for i, (n, a) in enumerate(zip(names, apar)):
+        # ragged-theta cubes (R4) are NaN-padded and their theta axis is the unsorted union of the samples' grids
+        a = a.dropna("theta").sortby("theta")
+        pyro = scan.sample_pyro(i, gk_output=xr.Dataset({"apar": a}))
+        T.append(float(FieldLine(pyro).compute_linear_tearing_parameter().squeeze()) if a.theta.size else np.nan)
+        sp[n] = {s: (float(pyro.local_species[s].temp.m), float(pyro.local_species[s].dens.m), float(pyro.local_species[s].inverse_lt.m))
+                 for s in pyro.local_species.names}  # keep numbers, not 1000 Pyros
     T = np.array(T)
     heat = ds["heat"].sum("field").pint.dequantify()
     part = ds["particle"].sum("field").pint.dequantify()
@@ -55,8 +77,7 @@ def indicators(scan, ds):
     def chi(group):  # summed over the species in `group`; temperatures and densities are in tref, nref
         num = den = 0.0
         for s in group:
-            t, n, alt = np.array([[float(scan.pyro_dict[k].local_species[s].temp.m), float(scan.pyro_dict[k].local_species[s].dens.m),
-                                   float(scan.pyro_dict[k].local_species[s].inverse_lt.m)] for k in names]).T
+            t, n, alt = np.array([sp[k][s] for k in names]).T
             num = num + heat.sel(species=s).values - 1.5 * t * part.sel(species=s).values
             den = den + n * t * alt
         return num / den
