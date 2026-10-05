@@ -69,7 +69,7 @@ def load_gs2_cube(base, cube=None, file_name="gs2.in"):
 
 
 def indicators(scan, ds):
-    """T, omega, chi_e/chi_i per sample, from a PyroScan/PyroHypercube `scan` and its final-time GK output dataset `ds`.
+    """T, apar even fraction E, omega, chi_e/chi_i per sample, from a PyroScan/PyroHypercube `scan` and its final-time GK output dataset `ds`.
 
     ds: PyroScanGKOutput.from_netcdf(...).data with sample, complex apar, mode_frequency, heat, particle (the scan's pyro_cube).
     Sample i's Pyro is scan.sample_pyro(i, gk_output=...): the base with that sample's scanned values and derived settings
@@ -78,12 +78,14 @@ def indicators(scan, ds):
     names = [str(n) for n in ds.sample_name.values]
     assert names == list(scan.sample_names), "scan and dataset samples differ"
     apar = ds["apar"].squeeze().pint.dequantify()
-    sp, T = {}, []
+    sp, T, E = {}, [], []
     for i, (n, a) in enumerate(zip(names, apar)):
         # ragged-theta cubes (R4) are NaN-padded and their theta axis is the unsorted union of the samples' grids
         a = a.dropna("theta").sortby("theta")
         pyro = scan.sample_pyro(i, gk_output=xr.Dataset({"apar": a}))
-        T.append(float(FieldLine(pyro).compute_linear_tearing_parameter().squeeze()) if a.theta.size else np.nan)
+        fl = FieldLine(pyro) if a.theta.size else None
+        T.append(float(fl.compute_linear_tearing_parameter().squeeze()) if fl else np.nan)
+        E.append(float(fl.compute_linear_parity().squeeze()) if fl else np.nan)  # apar even fraction, about theta = 0
         sp[n] = {s: (float(pyro.local_species[s].temp.m), float(pyro.local_species[s].dens.m), float(pyro.local_species[s].inverse_lt.m))
                  for s in pyro.local_species.names}  # keep numbers, not 1000 Pyros
     T = np.array(T)
@@ -100,7 +102,7 @@ def indicators(scan, ds):
         return num / den
 
     chi_e, chi_i = chi(["electron"]), chi([str(s) for s in ds.species.values if s != "electron"])
-    return xr.Dataset({"T": ("sample", T), "omega": ("sample", ION_DIRECTION * ds["mode_frequency"].pint.dequantify().values.ravel()),
+    return xr.Dataset({"T": ("sample", T), "E": ("sample", np.array(E)), "omega": ("sample", ION_DIRECTION * ds["mode_frequency"].pint.dequantify().values.ravel()),
                        "chi_ratio": ("sample", chi_e / chi_i)}, coords={"sample": ds.sample.values, "sample_name": ("sample", names)})
 
 
