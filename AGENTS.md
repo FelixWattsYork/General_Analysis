@@ -2,7 +2,8 @@
 
 The deliverable is an understandable, editable analysis notebook and its figures.
 Use the supplied notebooks as scientific and visual references; preserve them unless
-the user asks for changes. Start new investigations from `notebooks/template.ipynb`.
+the user asks for changes. A neutral starter is `notebooks/_templates/analysis.ipynb`;
+use relevant worked examples when helpful, without forcing a single loading pattern.
 Use descriptive `.ipynb` filenames. Do not introduce paired Python scripts, plotting
 YAML, custom runners, or provenance bundles.
 
@@ -24,6 +25,14 @@ silently merged into one implementation.
 
 ## Notebooks
 
+- Group investigations under `notebooks/<analysis_project>/` and their figures under
+  `Plots/<analysis_project>/<analysis_name>/`. Keep analysis_project explicit and
+  consistent with the notebook's project folder. It is separate from the simulation
+  project in input paths: an investigation may span several simulation projects/cases.
+  Leave existing notebooks in place unless asked to reorganise them.
+- Choose the simplest data structure for the investigation. For multiple cases and
+  model variants, `scans[case][model_variant]` is often sufficient. Do not require
+  every analysis to use nested dictionaries or mirror the filesystem hierarchy.
 - Separate imports/settings, data loading, calculations/selections, plotting, and
   saving. Cosmetic edits should require only plotting and saving to rerun.
 - Read the machine-specific data root from `GK_DATA_ROOT` in the root `local.env`
@@ -53,7 +62,7 @@ silently merged into one implementation.
   colour convention: do not assign universal colours to TGLF or GFTM, or force
   gyrokinetic curves to black in other kinds of plots. Choose colours per analysis
   to distinguish models, numerical settings, or other meaningful quantities.
-- Save explicitly with `fig.savefig(...)` under `Plots/<analysis-name>/`. A fixed
+- Save explicitly with `fig.savefig(...)` under `Plots/<analysis_project>/<analysis_name>/`. A fixed
   filename is replaced when saved again. No automatic data or provenance archives.
 - Verify delivered analyses from a fresh kernel, including save cells. Report missing
   inputs, dependency problems, or any unexecuted parts. Never claim a successful run

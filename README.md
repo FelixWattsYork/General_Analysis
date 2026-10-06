@@ -2,8 +2,8 @@
 
 Editable Jupyter notebooks using Pyrokinetics and Matplotlib. The original notebooks
 are reference analyses; new investigations can start from
-[template.ipynb](notebooks/template.ipynb). A small real-data example is
-[growth_rate_comparison.ipynb](notebooks/growth_rate_comparison.ipynb).
+[analysis.ipynb](notebooks/_templates/analysis.ipynb), a neutral starter. A small
+real-data example is [growth_rate_comparison.ipynb](notebooks/examples/growth_rate_comparison.ipynb).
 
 ## Getting started
 
@@ -36,13 +36,26 @@ those analyses; the notebook setup does not replace it. That environment also ne
 
 ## Everyday use
 
-1. Duplicate the template and give it a descriptive analysis name.
+1. Copy the starter into `notebooks/<analysis_project>/` with a descriptive filename.
+   Set `analysis_project` to that folder name and choose an `analysis_name`.
 2. Set the data root in `local.env`; choose relative scan paths and scientific
    settings in the notebook. Load with Pyrokinetics.
 3. Calculate/select the data in its own cell; plot using ordinary Matplotlib.
 4. Rerun only plotting when changing labels, colours, or limits. Rerun calculations
    when changing selections, and loading when changing input files.
-5. Run the save cell to write `Plots/<analysis-name>/<figure-name>.png`.
+5. Run the save cell to write `Plots/<analysis_project>/<analysis_name>/<figure-name>.png`.
+
+Notebook and figure project names match, for example:
+
+```text
+notebooks/TGLF_GFTM_KBM_PAPER/growth_rates.ipynb
+Plots/TGLF_GFTM_KBM_PAPER/growth_rates/comparison.png
+```
+
+`analysis_project` groups work in this repository; `project` in an input path
+identifies a simulation project. They need not match: one investigation may combine
+multiple simulation projects, cases, or models. Existing reference notebooks are
+left in place. `_templates` holds starters; `examples` holds worked examples.
 
 Input paths follow `data_root / code / run_template / project / case /
 scan_information / output_file`. Each component is an editable notebook setting,
@@ -51,8 +64,13 @@ alongside `ky`, reference values, and thresholds. Use an empty string for
 information. The comparison example uses a per-code mapping for those subdirectories;
 `metadata_file` and `output_file` select the scan metadata and saved output.
 
-The template is a skeleton: fill its loading, calculation, and plotting cells before
-saving. The worked example compares GS2 and TGLF growth rates for the `scan_q/S1_3`
+The starter assumes no particular loader or data container. Fill its loading,
+calculation, and plotting cells before saving. For case/model comparisons,
+`scans[case][model_variant]` is a useful simple arrangement; use individual objects
+or a table when those fit better. The filesystem hierarchy does not dictate the
+analysis container.
+
+The worked example compares GS2 and TGLF growth rates for the `scan_q/S1_3`
 scan used by `Linear_Plotting.ipynb`. Its input paths are explicit and editable. It
 requires the existing `pyroscan.json`, `pyroscan.nc`, and base inputs referenced by
 Pyrokinetics; missing data produces an error rather than substitute results.
