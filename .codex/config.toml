@@ -1,0 +1,16 @@
+# BEGIN jupyter-agent-bridge MCP server
+[mcp_servers.jupyter-agent-bridge]
+command = "node"
+args = [
+  "/pitagora/home/userexternal/fwatts00/.vscode-server/extensions/alendit.jupyter-agent-bridge-0.12.1/frontend-mcp/dist/frontend-mcp/src/main.js",
+  "/pitagora_work/FUPB2_QLTURB/fwatts/General_Analysis_38e94/.jupyter-agent-bridge/bridge/port",
+]
+
+[mcp_servers.jupyter-agent-bridge.env]
+
+[mcp_servers.jupyter-agent-bridge.tools.restart_kernel]
+approval_mode = "approve"
+
+[mcp_servers.jupyter-agent-bridge.tools.execute_cells_async]
+approval_mode = "approve"
+# END jupyter-agent-bridge MCP server
