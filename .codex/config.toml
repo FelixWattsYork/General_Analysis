@@ -7,10 +7,4 @@ args = [
 ]
 
 [mcp_servers.jupyter-agent-bridge.env]
-
-[mcp_servers.jupyter-agent-bridge.tools.restart_kernel]
-approval_mode = "approve"
-
-[mcp_servers.jupyter-agent-bridge.tools.execute_cells_async]
-approval_mode = "approve"
 # END jupyter-agent-bridge MCP server
