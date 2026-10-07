@@ -13,5 +13,6 @@ local.env
 
 # Generated figures, notebook checkpoints, and local data
 Plots/**
+Results/**
 .ipynb_checkpoints/
 data/
