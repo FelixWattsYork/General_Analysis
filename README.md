@@ -20,7 +20,8 @@ notebook subdirectory; no package import or editable installation is needed for
 the style file.
 
 Set `GK_DATA_ROOT` in the repository's `local.env` to the directory containing
-`GS2/`, `TGLF/`, `GENE/`, etc. A `local.env.example` is provided for new checkouts;
+`GS2/`, `TGLF/`, `GENE/`, etc. On Pitagora this is the WORK tree,
+`${WORK}/fwatts/Gyrokinetic_Simulations` (not scratch). A `local.env.example` is provided for new checkouts;
 copy it to `local.env` only if you do not already have that file. The new notebooks
 load it explicitly with python-dotenv, including when launched from VS Code.
 Values in `local.env` take precedence over existing environment variables, so
