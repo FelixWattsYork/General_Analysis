@@ -25,6 +25,7 @@ New analysis notebooks are grouped by topic. Each writes figures to `Plots/<anal
 | [MTM/mtm_nbasis_ladder_fixed_width.ipynb](MTM/mtm_nbasis_ladder_fixed_width.ipynb) | NBASIS ladder at fixed NXGRID and per-case WIDTH | results/mtm_maxbasis |
 | [MTM/mtm_only_population_rescore.ipynb](MTM/mtm_only_population_rescore.ipynb) | All MTM settings re-scored on MTM-only population | results/mtm_only_rescore |
 | [MTM/mtm_gftm_settings_recommendation.ipynb](MTM/mtm_gftm_settings_recommendation.ipynb) | Recipe grid scored; frozen MTM settings recommendation | results/mtm_settings_recommendation |
+| [MTM/mtm_new_law_extent_rule_vs_max_basis.ipynb](MTM/mtm_new_law_extent_rule_vs_max_basis.ipynb) | New MTM extent law: extent-rule and max-basis arms vs the old law, MTM-only paired | results/mtm_extent_rule_law2 |
 | [MTM/mtm_default_vs_m11_settings.ipynb](MTM/mtm_default_vs_m11_settings.ipynb) | MTM default vs m11 settings | results/nstx_mtm_lhc_default_vs_m11 |
 
 Older notebooks (`FuseNet_Poster/`, `TGLF_GFTM_KBM_PAPER/`, the paper-figure notebooks, `examples/`, `_templates/`) are unchanged in place.
