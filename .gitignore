@@ -16,3 +16,8 @@ Plots/**
 Results/**
 .ipynb_checkpoints/
 data/
+
+# Notebook-relative outputs (published copies live in Fusion_PhD results/)
+notebooks/**/plots/
+notebooks/**/csv/
+*.executed.ipynb
