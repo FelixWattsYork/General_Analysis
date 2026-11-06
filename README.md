@@ -36,8 +36,8 @@ those analyses; the notebook setup does not replace it. That environment also ne
 
 ## Everyday use
 
-1. Copy the starter into `notebooks/<analysis_project>/` with a descriptive filename.
-   Set `analysis_project` to that folder name and choose an `analysis_name`.
+1. Copy the starter into the folder [notebooks/README.md](notebooks/README.md) assigns it,
+   with a descriptive filename. Set `analysis_project` and choose an `analysis_name`.
 2. Set the data root in `local.env`; choose relative scan paths and scientific
    settings in the notebook. Load with Pyrokinetics.
 3. Calculate/select the data in its own cell; plot using ordinary Matplotlib.
@@ -45,17 +45,10 @@ those analyses; the notebook setup does not replace it. That environment also ne
    when changing selections, and loading when changing input files.
 5. Run the save cell to write `Plots/<analysis_project>/<analysis_name>/<figure-name>.png`.
 
-Notebook and figure project names match, for example:
-
-```text
-notebooks/TGLF_GFTM_KBM_PAPER/growth_rates.ipynb
-Plots/TGLF_GFTM_KBM_PAPER/growth_rates/comparison.png
-```
-
 `analysis_project` groups work in this repository; `project` in an input path
 identifies a simulation project. They need not match: one investigation may combine
-multiple simulation projects, cases, or models. Existing reference notebooks are
-left in place. `_templates` holds starters; `examples` holds worked examples.
+multiple simulation projects, cases, or models. `_templates` holds starters;
+`examples` holds worked examples.
 
 Input paths follow `data_root / code / run_template / project / case /
 scan_information / output_file`. Each component is an editable notebook setting,

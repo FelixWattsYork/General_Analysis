@@ -25,11 +25,14 @@ silently merged into one implementation.
 
 ## Notebooks
 
-- Group investigations under `notebooks/<analysis_project>/` and their figures under
-  `Plots/<analysis_project>/<analysis_name>/`. Keep analysis_project explicit and
-  consistent with the notebook's project folder. It is separate from the simulation
-  project in input paths: an investigation may span several simulation projects/cases.
-  Leave existing notebooks in place unless asked to reorganise them.
+- Place notebooks by the rule in `notebooks/README.md`: `nonlinear/` for any nonlinear
+  content; otherwise `linear/` by database (`KBM`, `MTM`, `general`), then by the point it
+  supports; `theory/` when there is no GK data. At most about 10 notebooks per folder, then
+  subfolders; a new bead does not get its own folder. Keep notebooks atomic and add each to
+  the README index. Find the repository by searching upward for `pyproject.toml`, never by
+  a fixed depth. Figures go under `Plots/<analysis_project>/<analysis_name>/`, whatever the
+  folder; `analysis_project` is separate from the simulation project in input paths: an
+  investigation may span several simulation projects/cases.
 - Choose the simplest data structure for the investigation. For multiple cases and
   model variants, `scans[case][model_variant]` is often sufficient. Do not require
   every analysis to use nested dictionaries or mirror the filesystem hierarchy.
