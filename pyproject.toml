@@ -6,7 +6,7 @@ readme = "README.md"
 authors = [
     { name = "FelixWattsYork", email = "hmq514@york.ac.uk" }
 ]
-requires-python = ">=3.14"
+requires-python = ">=3.13"
 dependencies = [
     "ipykernel>=7.2.0",
     "pyrokinetics",
@@ -23,4 +23,4 @@ requires = ["uv_build>=0.12.15,<0.13.0"]
 build-backend = "uv_build"
 
 [tool.uv.sources]
-pyrokinetics = { git = "https://github.com/pyro-kinetics/pyrokinetics", branch = "feature/claude/open-prs-combined" }
+pyrokinetics = { path = "../pyrokinetics", editable = true }
