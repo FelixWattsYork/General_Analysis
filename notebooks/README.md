@@ -52,6 +52,7 @@ No GK data: Gaussian-Hermite fits and similar.
 | [kbm_width_ushape](linear/KBM/tglf_gftm_resolution/kbm_database/kbm_width_ushape.ipynb) | TGLF and GFTM error vs WIDTH per NBASIS | kbm_width_collapse |
 | [kbm_width_ushape_tglf_f0](linear/KBM/tglf_gftm_resolution/kbm_database/kbm_width_ushape_tglf_f0.ipynb) | The same with TGLF at FILTER 0 | kbm_width_collapse |
 | [kbm_gftm_accuracy_vs_filter_and_width](linear/KBM/tglf_gftm_resolution/kbm_database/kbm_gftm_accuracy_vs_filter_and_width.ipynb) | GFTM accuracy vs FILTER and WIDTH | kbm_filter_width |
+| [fixed_width_nbasis_convergence](linear/KBM/tglf_gftm_resolution/kbm_database/fixed_width_nbasis_convergence.ipynb) | Fixed WIDTH x NBASIS convergence, TGLF and GFTM, with cost; NXGRID >= NBASIS + 8 | kbm_fixed_width_nbasis |
 
 ## linear/KBM/extent/definition_single_kbm
 
