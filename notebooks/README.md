@@ -36,7 +36,7 @@ No GK data: Gaussian-Hermite fits and similar.
 
 | notebook | shows | Fusion_PhD results |
 |---|---|---|
-| [spr045_single_kbm_width_nbasis](linear/KBM/tglf_gftm_resolution/single_kbm/spr045_single_kbm_width_nbasis.ipynb) | One KBM (SPR-045 sample_0818) against WIDTH and NBASIS, GFTM and TGLF | spr045_single_kbm |
+| [spr045_single_kbm_width_nbasis](linear/KBM/tglf_gftm_resolution/single_kbm/spr045_single_kbm_width_nbasis.ipynb) | One KBM (SPR-045 sample_0818) against WIDTH and NBASIS, GFTM and TGLF; v2 section (qp5.41): fig3 under TGLF SAT2 / NXGRID >= NBASIS+8 | spr045_single_kbm |
 | [eigenfunction_resolution_width_nbasis](linear/KBM/tglf_gftm_resolution/single_kbm/eigenfunction_resolution_width_nbasis.ipynb) | How WIDTH and NBASIS resolve its eigenfunction, one figure per code (talk slide 16) | talk_20261102 |
 | [single_kbm_gs2_eigenfunction](linear/KBM/tglf_gftm_resolution/single_kbm/single_kbm_gs2_eigenfunction.ipynb) | Its GS2 eigenfunction, real and imaginary parts (talk slide 17) | talk_20261102 |
 | [single_kbm_gamma_ratio_vs_width](linear/KBM/tglf_gftm_resolution/single_kbm/single_kbm_gamma_ratio_vs_width.ipynb) | Its $\gamma_{code}/\gamma_{GS2}$ against WIDTH (talk slide 18) | talk_20261102 |
@@ -60,7 +60,7 @@ No GK data: Gaussian-Hermite fits and similar.
 | notebook | shows | Fusion_PhD results |
 |---|---|---|
 | [extent_definition](linear/KBM/extent/definition_single_kbm/extent_definition.ipynb) | How pyrokinetics measures a mode's extent (talk extent-definition slide) | talk_20261102 |
-| [single_kbm_extent_vs_width](linear/KBM/extent/definition_single_kbm/single_kbm_extent_vs_width.ipynb) | One KBM, 95% extent of $\phi$ and $A_\parallel$ vs WIDTH (talk slide 18b) | talk_20261102 |
+| [single_kbm_extent_vs_width](linear/KBM/extent/definition_single_kbm/single_kbm_extent_vs_width.ipynb) | One KBM, 95% extent of $\phi$ and $A_\parallel$ vs WIDTH (talk slide 18b; v2 section, qp5.41: TGLF SAT2, NXGRID >= NBASIS+8) | talk_20261102, spr045_single_kbm |
 
 ## linear/KBM/extent/kbm_database
 
