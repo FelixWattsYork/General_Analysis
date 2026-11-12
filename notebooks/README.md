@@ -85,6 +85,7 @@ The KBM population and $\gamma$ parity against GS2.
 |---|---|---|
 | [kbm_hypercube_gamma_parity](linear/KBM/database/kbm_hypercube_gamma_parity.ipynb) | Growth-rate parity, FILTER=0.5 GFTM arms vs GS2 | kbm_hypercube_gamma_parity_f05 |
 | [kbm_hypercube_gamma_parity_five_arms_filter0](linear/KBM/database/kbm_hypercube_gamma_parity_five_arms_filter0.ipynb) | The original FILTER=0 five arms, with the user's manual edits (mode 0, per-case scatter) | kbm_hypercube_gamma_parity |
+| [gs2_kbm_population](linear/KBM/database/gs2_kbm_population.ipynb) | Converged GS2 KBMs per case in the kbm_free cubes (the paper's 738) | kbm_gs2_population |
 
 ## linear/MTM/mode_structure
 
