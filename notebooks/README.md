@@ -52,7 +52,7 @@ No GK data: Gaussian-Hermite fits and similar.
 | [kbm_width_ushape](linear/KBM/tglf_gftm_resolution/kbm_database/kbm_width_ushape.ipynb) | TGLF and GFTM error vs WIDTH per NBASIS | kbm_width_collapse |
 | [kbm_width_ushape_tglf_f0](linear/KBM/tglf_gftm_resolution/kbm_database/kbm_width_ushape_tglf_f0.ipynb) | The same with TGLF at FILTER 0 | kbm_width_collapse |
 | [kbm_gftm_accuracy_vs_filter_and_width](linear/KBM/tglf_gftm_resolution/kbm_database/kbm_gftm_accuracy_vs_filter_and_width.ipynb) | GFTM accuracy vs FILTER and WIDTH | kbm_filter_width |
-| [width_nbasis_fractions](linear/KBM/tglf_gftm_resolution/kbm_database/width_nbasis_fractions.ipynb) | Fraction of KBMs with extents within x of GS2, and gamma within x of the top NBASIS, vs WIDTH per NBASIS (TGLF, GFTM) | kbm_width_nbasis_fractions |
+| [width_nbasis_fractions](linear/KBM/tglf_gftm_resolution/kbm_database/width_nbasis_fractions.ipynb) | Fraction of KBMs with extents within x of GS2, and gamma within x of the top NBASIS, vs WIDTH per NBASIS (TGLF, GFTM) | basis_resolution_rule |
 
 ## linear/KBM/extent/definition_single_kbm
 
