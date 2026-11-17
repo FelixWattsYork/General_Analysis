@@ -109,6 +109,7 @@ The KBM population and $\gamma$ parity against GS2.
 | [mtm_extent_law_refit_nstx](linear/MTM/extent_law/mtm_extent_law_refit_nstx.ipynb) | $\theta_{95}(k_y,\hat s,q)$ law refit on NSTX | mtm_extent_law_refit |
 | [mtm_extent_vs_all_parameters](linear/MTM/extent_law/mtm_extent_vs_all_parameters.ipynb) | Extent vs every parameter | mtm_extent_parameters |
 | [mtm_extent_vs_all_parameters_mtm_only](linear/MTM/extent_law/mtm_extent_vs_all_parameters_mtm_only.ipynb) | The same, MTM-only population | mtm_only_rescore |
+| [mtm_shape_check](linear/MTM/extent_law/mtm_shape_check.ipynb) | Are the $A_\parallel$ spike trains real? run final-time field vs cube, spike count vs $k_y\hat s$ | mtm_field_widths/shape_check |
 
 ## linear/MTM/settings
 
