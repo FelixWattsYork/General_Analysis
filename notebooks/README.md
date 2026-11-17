@@ -112,6 +112,7 @@ The KBM population and $\gamma$ parity against GS2.
 | [mtm_extent_vs_all_parameters](linear/MTM/extent_law/mtm_extent_vs_all_parameters.ipynb) | Extent vs every parameter | mtm_extent_parameters |
 | [mtm_extent_vs_all_parameters_mtm_only](linear/MTM/extent_law/mtm_extent_vs_all_parameters_mtm_only.ipynb) | The same, MTM-only population | mtm_only_rescore |
 | [mtm_field_widths](linear/MTM/extent_law/mtm_field_widths.ipynb) | GS2 $\phi$ and $A_\parallel$ equivalent Gaussian widths in $\theta_b$, width laws, basis projection, settings | mtm_field_widths |
+| [mtm_shape_check](linear/MTM/extent_law/mtm_shape_check.ipynb) | Are the $A_\parallel$ spike trains real? run final-time field vs cube, spike count vs $k_y\hat s$ | mtm_field_widths |
 
 ## linear/MTM/settings
 
