@@ -29,6 +29,7 @@ No GK data: Gaussian-Hermite fits and similar.
 | [tglf_filter_width](linear/KBM/tglf_width_search/tglf_filter_width.ipynb) | FILTER x NBASIS vs GS2 on the four kbm_free databases | tglf_filter_width |
 | [tglf_sat1_sat2](linear/KBM/tglf_width_search/tglf_sat1_sat2.ipynb) | SAT1 (EM search) vs SAT2 (ES search) vs GS2 on kbm_free | tglf_sat1_sat2 |
 | [width_search_vs_oracle](linear/KBM/tglf_width_search/width_search_vs_oracle.ipynb) | TGLF SAT1/SAT2 search width against the per-KBM oracle width (best extents vs GS2) from the fixed-width runs | width_search_vs_oracle |
+| [equivalent_gaussian_width](linear/KBM/tglf_width_search/equivalent_gaussian_width.ipynb) | Equivalent Gaussian width of each GS2-KBM field from its 95 % extent (calibrated on NBASIS-2 runs), against the oracle and search widths, and the NBASIS it implies | equivalent_gaussian_width |
 | [gftm_width_search](linear/KBM/tglf_width_search/gftm_width_search.ipynb) | GFTM emulated max-gamma width search (grid, no bisection) vs GS2, FILTER 0.5 and 0, vs fixed 0.4 and TGLF searches | gftm_width_search |
 | [kbm_tglf_extent_filter_mode_selection](linear/KBM/tglf_width_search/kbm_tglf_extent_filter_mode_selection.ipynb) | Extent filter on top of TGLF's frequency filter | kbm_extent_filter_tglf |
 
