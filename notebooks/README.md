@@ -41,6 +41,7 @@ No GK data: Gaussian-Hermite fits and similar.
 | [eigenfunction_resolution_width_nbasis](linear/KBM/tglf_gftm_resolution/single_kbm/eigenfunction_resolution_width_nbasis.ipynb) | How WIDTH and NBASIS resolve its eigenfunction, one figure per code (talk slide 16) | talk_20261102 |
 | [single_kbm_gs2_eigenfunction](linear/KBM/tglf_gftm_resolution/single_kbm/single_kbm_gs2_eigenfunction.ipynb) | Its GS2 eigenfunction, real and imaginary parts (talk slide 17) | talk_20261102 |
 | [single_kbm_gamma_ratio_vs_width](linear/KBM/tglf_gftm_resolution/single_kbm/single_kbm_gamma_ratio_vs_width.ipynb) | Its $\gamma_{code}/\gamma_{GS2}$ against WIDTH (talk slide 18) | talk_20261102 |
+| [single_kbm_tglf_knobs](linear/KBM/tglf_gftm_resolution/single_kbm/single_kbm_tglf_knobs.ipynb) | TGLF physics knobs (THETA_TRAPPED, XNU_FACTOR, PARK, GHAT, GCHAT, DAMP_*, LINSKER, GRADB, SAT presets) on this one KBM: $\gamma$, $\omega$, extents, overlap with GS2, and how the eigenfunction changes (qp5.47) | spr045_single_kbm |
 
 ## linear/KBM/tglf_gftm_resolution/kbm_database
 
