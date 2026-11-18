@@ -150,7 +150,7 @@ The KBM population and $\gamma$ parity against GS2.
 | [gary_settings_comparison](linear/general/plotting/gary_settings_comparison.ipynb) | User's Gary settings comparison (machine-specific data path) | - |
 | [m3_9_my_comparisons](linear/general/plotting/m3_9_my_comparisons.ipynb) | User's m3-m9 comparisons (machine-specific data path) | - |
 | [width_and_nxgrid_plotting](linear/general/plotting/width_and_nxgrid_plotting.ipynb) | WIDTH and NXGRID plots. **Does not open:** master holds unresolved merge markers | width_nxgrid_improved |
-| [beta_stabilisation_modes](linear/general/plotting/beta_stabilisation_modes.ipynb) | $\beta$ stabilisation and mode type, GFTM and TGLF vs GS2 | beta_stabilisation_f05 |
+| [beta_stabilisation_modes](linear/general/plotting/beta_stabilisation_modes.ipynb) | $\beta$ stabilisation and mode type, GFTM and TGLF vs GS2; (11) the best GFTM/TGLF settings | beta_stabilisation_f05, beta_stabilisation_best |
 
 ## nonlinear
 
