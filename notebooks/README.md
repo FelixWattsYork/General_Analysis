@@ -152,6 +152,12 @@ The KBM population and $\gamma$ parity against GS2.
 | [width_and_nxgrid_plotting](linear/general/plotting/width_and_nxgrid_plotting.ipynb) | WIDTH and NXGRID plots. **Does not open:** master holds unresolved merge markers | width_nxgrid_improved |
 | [beta_stabilisation_modes](linear/general/plotting/beta_stabilisation_modes.ipynb) | $\beta$ stabilisation and mode type, GFTM and TGLF vs GS2 | beta_stabilisation_f05 |
 
+## linear/general/flux_sensitivity
+
+| notebook | shows | Fusion_PhD results |
+|---|---|---|
+| [flux_attribution](linear/general/flux_sensitivity/flux_attribution.ipynb) | MG saturation rule on the GS2 $\beta$ scans: Shapley split of $\ln(Q_{\rm code}/Q_{\rm GS2})$ into $\gamma$, field amplitude and extent for GFTM/TGLF arms, by case, $\beta$ and GS2 mode type; TGLF SAT vs MG (qp5.52) | flux_metric_sensitivity |
+
 ## nonlinear
 
 | notebook | shows | Fusion_PhD results |
