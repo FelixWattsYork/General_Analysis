@@ -156,7 +156,8 @@ The KBM population and $\gamma$ parity against GS2.
 
 | notebook | shows | Fusion_PhD results |
 |---|---|---|
-| [flux_attribution](linear/general/flux_sensitivity/flux_attribution.ipynb) | MG saturation rule on the GS2 $\beta$ scans: Shapley split of $\ln(Q_{\rm code}/Q_{\rm GS2})$ into $\gamma$, field amplitude and extent for GFTM/TGLF arms, by case, $\beta$ and GS2 mode type; TGLF SAT vs MG (qp5.52) | flux_metric_sensitivity |
+| [flux_attribution](linear/general/flux_sensitivity/flux_attribution.ipynb) | MG saturation rule on the GS2 $\beta$ scans: Shapley split of $\ln(Q_{\rm code}/Q_{\rm GS2})$ into $\gamma$, field amplitude and extent for GFTM/TGLF arms, by case, $\beta$ and GS2 mode type; TGLF SAT vs MG (qp5.52); WP4 gradient error at fixed flux (threshold vs magnitude) and WP5 Kennedy nonlinear GENE M1_A1 anchor (qp5.53) | flux_metric_sensitivity |
+| [flux_metric_settings](linear/general/flux_sensitivity/flux_metric_settings.ipynb) | 738 GS2-KBMs (`kbm_free`): per-mode MG ingredients ($\gamma$, $A_f$, $E_f$) for every TGLF/GFTM fixed WIDTH × NBASIS and TGLF GHAT setting; settings re-ranked by predicted MG and SAT flux error; GFTM $\delta B_\parallel$ amplitude vs $k_y$ (qp5.53) | flux_metric_sensitivity |
 
 ## nonlinear
 
