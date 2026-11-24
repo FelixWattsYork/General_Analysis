@@ -28,6 +28,9 @@ No GK data: Gaussian-Hermite fits and similar.
 | [tglf_find_width_selected_width_and_fixed_width](linear/KBM/tglf_width_search/tglf_find_width_selected_width_and_fixed_width.ipynb) | Selected width vs search basis, best fixed WIDTH and NBASIS | tglf_find_width |
 | [tglf_filter_width](linear/KBM/tglf_width_search/tglf_filter_width.ipynb) | FILTER x NBASIS vs GS2 on the four kbm_free databases | tglf_filter_width |
 | [tglf_sat1_sat2](linear/KBM/tglf_width_search/tglf_sat1_sat2.ipynb) | SAT1 (EM search) vs SAT2 (ES search) vs GS2 on kbm_free | tglf_sat1_sat2 |
+| [width_search_vs_oracle](linear/KBM/tglf_width_search/width_search_vs_oracle.ipynb) | TGLF SAT1/SAT2 search width against the per-KBM oracle width (best extents vs GS2) from the fixed-width runs | width_search_vs_oracle |
+| [equivalent_gaussian_width](linear/KBM/tglf_width_search/equivalent_gaussian_width.ipynb) | Equivalent Gaussian width of each GS2-KBM field from its 95 % extent (calibrated on NBASIS-2 runs), against the oracle and search widths, and the NBASIS it implies | equivalent_gaussian_width |
+| [gftm_width_search](linear/KBM/tglf_width_search/gftm_width_search.ipynb) | GFTM emulated max-gamma width search (grid, no bisection) vs GS2, FILTER 0.5 and 0, vs fixed 0.4 and TGLF searches | gftm_width_search |
 | [kbm_tglf_extent_filter_mode_selection](linear/KBM/tglf_width_search/kbm_tglf_extent_filter_mode_selection.ipynb) | Extent filter on top of TGLF's frequency filter | kbm_extent_filter_tglf |
 
 ## linear/KBM/tglf_gftm_resolution/single_kbm
@@ -36,10 +39,11 @@ No GK data: Gaussian-Hermite fits and similar.
 
 | notebook | shows | Fusion_PhD results |
 |---|---|---|
-| [spr045_single_kbm_width_nbasis](linear/KBM/tglf_gftm_resolution/single_kbm/spr045_single_kbm_width_nbasis.ipynb) | One KBM (SPR-045 sample_0818) against WIDTH and NBASIS, GFTM and TGLF | spr045_single_kbm |
+| [spr045_single_kbm_width_nbasis](linear/KBM/tglf_gftm_resolution/single_kbm/spr045_single_kbm_width_nbasis.ipynb) | One KBM (SPR-045 sample_0818) against WIDTH and NBASIS, GFTM and TGLF; v2 section (qp5.41): fig3 under TGLF SAT2 / NXGRID >= NBASIS+8 | spr045_single_kbm |
 | [eigenfunction_resolution_width_nbasis](linear/KBM/tglf_gftm_resolution/single_kbm/eigenfunction_resolution_width_nbasis.ipynb) | How WIDTH and NBASIS resolve its eigenfunction, one figure per code (talk slide 16) | talk_20261102 |
 | [single_kbm_gs2_eigenfunction](linear/KBM/tglf_gftm_resolution/single_kbm/single_kbm_gs2_eigenfunction.ipynb) | Its GS2 eigenfunction, real and imaginary parts (talk slide 17) | talk_20261102 |
 | [single_kbm_gamma_ratio_vs_width](linear/KBM/tglf_gftm_resolution/single_kbm/single_kbm_gamma_ratio_vs_width.ipynb) | Its $\gamma_{code}/\gamma_{GS2}$ against WIDTH (talk slide 18) | talk_20261102 |
+| [single_kbm_tglf_knobs](linear/KBM/tglf_gftm_resolution/single_kbm/single_kbm_tglf_knobs.ipynb) | TGLF physics knobs (THETA_TRAPPED, XNU_FACTOR, PARK, GHAT, GCHAT, DAMP_*, LINSKER, GRADB, SAT presets) on this one KBM: $\gamma$, $\omega$, extents, overlap with GS2, and how the eigenfunction changes (qp5.47) | spr045_single_kbm |
 
 ## linear/KBM/tglf_gftm_resolution/kbm_database
 
@@ -52,6 +56,10 @@ No GK data: Gaussian-Hermite fits and similar.
 | [kbm_width_ushape](linear/KBM/tglf_gftm_resolution/kbm_database/kbm_width_ushape.ipynb) | TGLF and GFTM error vs WIDTH per NBASIS | kbm_width_collapse |
 | [kbm_width_ushape_tglf_f0](linear/KBM/tglf_gftm_resolution/kbm_database/kbm_width_ushape_tglf_f0.ipynb) | The same with TGLF at FILTER 0 | kbm_width_collapse |
 | [kbm_gftm_accuracy_vs_filter_and_width](linear/KBM/tglf_gftm_resolution/kbm_database/kbm_gftm_accuracy_vs_filter_and_width.ipynb) | GFTM accuracy vs FILTER and WIDTH | kbm_filter_width |
+| [tglf_trapped_knobs](linear/KBM/tglf_gftm_resolution/kbm_database/tglf_trapped_knobs.ipynb) | Converged TGLF KBM $\gamma$ against THETA_TRAPPED, XNU_FACTOR, PARK and the SAT presets, WIDTH 0.4 | tglf_trapped_knobs |
+| [tglf_ghat_database](linear/KBM/tglf_gftm_resolution/kbm_database/tglf_ghat_database.ipynb) | TGLF GHAT (0.4–1) on the 738 KBMs: $\gamma$, $\omega$, extent ratios and fraction within 10/20 % of GS2, pooled and per database; the over-predicted $f_t$-insensitive modes; WIDTH 0.4 | tglf_ghat_database |
+| [width_nbasis_fractions](linear/KBM/tglf_gftm_resolution/kbm_database/width_nbasis_fractions.ipynb) | Fraction of KBMs with extents within x of GS2, and gamma within x of the top NBASIS, vs WIDTH per NBASIS (TGLF, GFTM) | basis_resolution_rule |
+| [basis_resolution_rule](linear/KBM/tglf_gftm_resolution/kbm_database/basis_resolution_rule.ipynb) | GS2 KBM fields projected onto the TGLF/GFTM Hermite basis: NBASIS needed against WIDTH, the fixed-width rule, and its check against the codes | basis_resolution_rule |
 
 ## linear/KBM/extent/definition_single_kbm
 
@@ -60,7 +68,7 @@ No GK data: Gaussian-Hermite fits and similar.
 | notebook | shows | Fusion_PhD results |
 |---|---|---|
 | [extent_definition](linear/KBM/extent/definition_single_kbm/extent_definition.ipynb) | How pyrokinetics measures a mode's extent (talk extent-definition slide) | talk_20261102 |
-| [single_kbm_extent_vs_width](linear/KBM/extent/definition_single_kbm/single_kbm_extent_vs_width.ipynb) | One KBM, 95% extent of $\phi$ and $A_\parallel$ vs WIDTH (talk slide 18b) | talk_20261102 |
+| [single_kbm_extent_vs_width](linear/KBM/extent/definition_single_kbm/single_kbm_extent_vs_width.ipynb) | One KBM, 95% extent of $\phi$ and $A_\parallel$ vs WIDTH (talk slide 18b; v2 section, qp5.41: TGLF SAT2, NXGRID >= NBASIS+8) | talk_20261102, spr045_single_kbm |
 
 ## linear/KBM/extent/kbm_database
 
@@ -85,6 +93,7 @@ The KBM population and $\gamma$ parity against GS2.
 |---|---|---|
 | [kbm_hypercube_gamma_parity](linear/KBM/database/kbm_hypercube_gamma_parity.ipynb) | Growth-rate parity, FILTER=0.5 GFTM arms vs GS2 | kbm_hypercube_gamma_parity_f05 |
 | [kbm_hypercube_gamma_parity_five_arms_filter0](linear/KBM/database/kbm_hypercube_gamma_parity_five_arms_filter0.ipynb) | The original FILTER=0 five arms, with the user's manual edits (mode 0, per-case scatter) | kbm_hypercube_gamma_parity |
+| [gs2_kbm_population](linear/KBM/database/gs2_kbm_population.ipynb) | Converged GS2 KBMs per case in the kbm_free cubes (the paper's 738) | kbm_gs2_population |
 
 ## linear/MTM/mode_structure
 
@@ -102,6 +111,8 @@ The KBM population and $\gamma$ parity against GS2.
 | [mtm_extent_law_refit_nstx](linear/MTM/extent_law/mtm_extent_law_refit_nstx.ipynb) | $\theta_{95}(k_y,\hat s,q)$ law refit on NSTX | mtm_extent_law_refit |
 | [mtm_extent_vs_all_parameters](linear/MTM/extent_law/mtm_extent_vs_all_parameters.ipynb) | Extent vs every parameter | mtm_extent_parameters |
 | [mtm_extent_vs_all_parameters_mtm_only](linear/MTM/extent_law/mtm_extent_vs_all_parameters_mtm_only.ipynb) | The same, MTM-only population | mtm_only_rescore |
+| [mtm_field_widths](linear/MTM/extent_law/mtm_field_widths.ipynb) | GS2 $\phi$ and $A_\parallel$ equivalent Gaussian widths in $\theta_b$, width laws, basis projection, settings | mtm_field_widths |
+| [mtm_shape_check](linear/MTM/extent_law/mtm_shape_check.ipynb) | Are the $A_\parallel$ spike trains real? run final-time field vs cube, spike count vs $k_y\hat s$ | mtm_field_widths |
 
 ## linear/MTM/settings
 
