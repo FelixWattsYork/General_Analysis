@@ -4,6 +4,15 @@
 (`KBM`, `MTM`, or `general` when tied to none), then by the point it supports. Work with no GK data goes in
 `theory/`. Each folder holds at most about 10 notebooks; beyond that, make subfolders. Notebooks are atomic.
 
+**Naming rule (user, 2026-11-27).** A notebook's filename, and its figures' filenames, say *what is plotted*, not what the
+analysis is: `<y>_vs_<x>_per_<line or panel variable>`, e.g. `gamma_rms_error_vs_fixed_width_per_filter.ipynb`.
+- `_and_` separates **different plots** (panels or figures) and is used for nothing else:
+  `phi_extent_ratio_and_gamma_rms_error_vs_fixed_width_per_filter` is two panels. Quantities drawn on **one** plot are
+  joined with plain `_`: `phi_apar_extent_ratio_vs_fixed_width` is one panel with both fields.
+- Atomic: one notebook per kind of figure. A notebook whose parts make different kinds of plot is several notebooks.
+- No analysis words (`convergence`, `rule`, `oracle`, `physics`, `collapse`, `check`) unless the plot literally shows that.
+- Figure files carry the code as a prefix when a notebook draws one figure per code: `tglf_<name>.png`, `gftm_<name>.png`.
+
 Every notebook finds the repository by searching upward for `pyproject.toml`, so depth does not matter. Each
 notebook sets its own path under `Plots/`, independent of its folder. The results column is the directory under
 `results/` in Fusion_PhD holding the published copy.
