@@ -64,7 +64,7 @@ or a table when those fit better. The filesystem hierarchy does not dictate the
 analysis container.
 
 The worked example compares GS2 and TGLF growth rates for the `scan_q/S1_3`
-scan used by `Linear_Plotting.ipynb`. Its input paths are explicit and editable. It
+scan used by `linear/general/plotting/tglf_gftm_gs2_gamma_and_omega_vs_q_shat_beta_and_gamma_difference_vs_ky_parameter.ipynb`. Its input paths are explicit and editable. It
 requires the existing `pyroscan.json`, `pyroscan.nc`, and base inputs referenced by
 Pyrokinetics; missing data produces an error rather than substitute results.
 
