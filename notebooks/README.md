@@ -29,7 +29,7 @@ No GK data: Gaussian-Hermite fits and similar.
 | [tglf_filter_width](linear/KBM/tglf_width_search/tglf_filter_width.ipynb) | FILTER x NBASIS vs GS2 on the four kbm_free databases | tglf_filter_width |
 | [tglf_sat1_sat2](linear/KBM/tglf_width_search/tglf_sat1_sat2.ipynb) | SAT1 (EM search) vs SAT2 (ES search) vs GS2 on kbm_free | tglf_sat1_sat2 |
 | [width_search_vs_oracle](linear/KBM/tglf_width_search/width_search_vs_oracle.ipynb) | TGLF SAT1/SAT2 search width against the per-KBM oracle width (best extents vs GS2) from the fixed-width runs | width_search_vs_oracle |
-| [equivalent_gaussian_width](linear/KBM/tglf_width_search/equivalent_gaussian_width.ipynb) | Equivalent Gaussian width of each GS2-KBM field from its 95 % extent (calibrated on NBASIS-2 runs), against the oracle and search widths, and the NBASIS it implies | equivalent_gaussian_width |
+| [equivalent_gaussian_width](linear/KBM/tglf_width_search/equivalent_gaussian_width.ipynb) | Equivalent Gaussian width of each GS2-KBM field from its 95 % extent in $\theta_b$, against the oracle and search widths, and the NBASIS it implies | equivalent_gaussian_width |
 | [gftm_width_search](linear/KBM/tglf_width_search/gftm_width_search.ipynb) | GFTM emulated max-gamma width search (grid, no bisection) vs GS2, FILTER 0.5 and 0, vs fixed 0.4 and TGLF searches | gftm_width_search |
 | [kbm_tglf_extent_filter_mode_selection](linear/KBM/tglf_width_search/kbm_tglf_extent_filter_mode_selection.ipynb) | Extent filter on top of TGLF's frequency filter | kbm_extent_filter_tglf |
 
@@ -58,6 +58,7 @@ No GK data: Gaussian-Hermite fits and similar.
 | [kbm_gftm_accuracy_vs_filter_and_width](linear/KBM/tglf_gftm_resolution/kbm_database/kbm_gftm_accuracy_vs_filter_and_width.ipynb) | GFTM accuracy vs FILTER and WIDTH | kbm_filter_width |
 | [tglf_trapped_knobs](linear/KBM/tglf_gftm_resolution/kbm_database/tglf_trapped_knobs.ipynb) | Converged TGLF KBM $\gamma$ against THETA_TRAPPED, XNU_FACTOR, PARK and the SAT presets, WIDTH 0.4 | tglf_trapped_knobs |
 | [tglf_ghat_database](linear/KBM/tglf_gftm_resolution/kbm_database/tglf_ghat_database.ipynb) | TGLF GHAT (0.4–1) on the 738 KBMs: $\gamma$, $\omega$, extent ratios and fraction within 10/20 % of GS2, pooled and per database; the over-predicted $f_t$-insensitive modes; WIDTH 0.4 | tglf_ghat_database |
+| [fixed_width_nbasis_convergence](linear/KBM/tglf_gftm_resolution/kbm_database/fixed_width_nbasis_convergence.ipynb) | TGLF and GFTM at fixed WIDTH x NBASIS on the KBM database: FILTER vs WIDTH (part 0), error vs WIDTH per NBASIS (part A), error vs NBASIS (part B) | kbm_fixed_width_nbasis |
 | [width_nbasis_fractions](linear/KBM/tglf_gftm_resolution/kbm_database/width_nbasis_fractions.ipynb) | Fraction of KBMs with extents within x of GS2, and gamma within x of the top NBASIS, vs WIDTH per NBASIS (TGLF, GFTM) | basis_resolution_rule |
 | [basis_resolution_rule](linear/KBM/tglf_gftm_resolution/kbm_database/basis_resolution_rule.ipynb) | GS2 KBM fields projected onto the TGLF/GFTM Hermite basis: NBASIS needed against WIDTH, the fixed-width rule, and its check against the codes | basis_resolution_rule |
 
