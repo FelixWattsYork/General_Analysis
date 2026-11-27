@@ -4,7 +4,8 @@ The deliverable is an understandable, editable analysis notebook and its figures
 Use the supplied notebooks as scientific and visual references; preserve them unless
 the user asks for changes. A neutral starter is `notebooks/_templates/analysis.ipynb`;
 use relevant worked examples when helpful, without forcing a single loading pattern.
-Use descriptive `.ipynb` filenames. Do not introduce paired Python scripts, plotting
+Name each notebook and figure by what it plots (`<y>_vs_<x>_per_<variable>`), with `_and_` only between
+different plots and one notebook per kind of figure: see "Naming rule" in `notebooks/README.md`. Do not introduce paired Python scripts, plotting
 YAML, custom runners, or provenance bundles.
 
 ## Keep code visible

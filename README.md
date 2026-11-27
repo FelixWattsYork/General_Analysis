@@ -37,7 +37,7 @@ those analyses; the notebook setup does not replace it. That environment also ne
 ## Everyday use
 
 1. Copy the starter into the folder [notebooks/README.md](notebooks/README.md) assigns it,
-   with a descriptive filename. Set `analysis_project` and choose an `analysis_name`.
+   with a filename that says what it plots (see "Naming rule" in `notebooks/README.md`). Set `analysis_project` and choose an `analysis_name`.
 2. Set the data root in `local.env`; choose relative scan paths and scientific
    settings in the notebook. Load with Pyrokinetics.
 3. Calculate/select the data in its own cell; plot using ordinary Matplotlib.
